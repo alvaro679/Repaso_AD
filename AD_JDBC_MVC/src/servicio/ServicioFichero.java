@@ -1,20 +1,23 @@
 package servicio;
 
+import modelo.ListaPreguntas;
 import modelo.Pregunta;
 import repositorio.Fichero;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServicioFichero {
+
     private Fichero fichero;
 
     public ServicioFichero(String ruta) {
         this.fichero = new Fichero(ruta);
     }
 
-    public List<Pregunta> obtenerPreguntasDeFichero() {
+    public ListaPreguntas obtenerPreguntasDeFichero() {
         List<String> lineas;
-        List<Pregunta> listaFinal = new ArrayList<>();
+        ListaPreguntas listaFinal = new ListaPreguntas();
         List<String> opciones;
         String enunciado;
         String opA;
@@ -62,15 +65,15 @@ public class ServicioFichero {
                         correcta = opD;
                         break;
                     default:
-                        // El default captura errores si el fichero viene mal .
                         System.err.println("Error: Letra de respuesta no reconocida: " + letra);
                         break;
                 }
 
-                // Creamos el objeto con ID 0 temporalmente (la BD asignará el real).
-                listaFinal.add(new Pregunta(enunciado, 0, opciones, correcta));
+                // Creamos el objeto con ID 0 temporalmente porque la BD asignará el real.
+                listaFinal.addPregunta(new Pregunta(enunciado, 0, opciones, correcta));
             }
         }
+
         return listaFinal;
     }
 }

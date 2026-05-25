@@ -1,13 +1,16 @@
 package controlador;
 
+import modelo.ListaPreguntas;
 import modelo.Pregunta;
 import servicio.ServicioFichero;
 import servicio.ServicioPregunta;
 import vista.Consola;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ControladorPreguntas {
+
     // ZONA DECLARATIVA (Atributos)
     private ServicioFichero sFichero;
     private ServicioPregunta sPregunta;
@@ -21,7 +24,7 @@ public class ControladorPreguntas {
 
     public void iniciar() {
 
-        List<Pregunta> listaFichero;
+        ListaPreguntas listaFichero;
         List<Pregunta> listaJuego;
         List<String> resumen;
         int cantidad;
@@ -33,7 +36,7 @@ public class ControladorPreguntas {
         aciertos = 0;
         resumen = new ArrayList<>();
 
-        // 1. Cargar y Guardar en BD
+        // 1. Cargar y guardar en BD
         consola.mostrarMensaje("Cargando fichero y guardando en BD...");
         listaFichero = sFichero.obtenerPreguntasDeFichero();
 
@@ -49,6 +52,7 @@ public class ControladorPreguntas {
         }
 
         i = 1;
+
         for (Pregunta p : listaJuego) {
             respuestaUser = consola.mostrarPreguntaYPedirRespuesta(p, i);
 
@@ -61,10 +65,11 @@ public class ControladorPreguntas {
             } else {
                 resumen.add("P" + i + ": Incorrecta. Era: " + p.getRespuestaCorrecta());
             }
+
             i = i + 1;
         }
 
-        // 3. Resultados y Limpieza
+        // 3. Resultados y limpieza
         consola.mostrarResultados(aciertos, listaJuego.size(), resumen);
 
         consola.mostrarMensaje("Limpiando base de datos...");
