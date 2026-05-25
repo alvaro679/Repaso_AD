@@ -1,0 +1,6 @@
+hola12344;IOException;2025-10-20;18:19:56.698892500
+hola12344;FileNotFoundException;2025-10-20;18:20:16.175437200
+hola12344;Exception;2025-10-20;18:20:19.596065
+carlos;IOException;2025-12-04;13:08:07.761165600
+carlos2;FileNotFoundException;2025-12-04;13:24:56.269048
+
