@@ -4,6 +4,7 @@ import modelo.ListaPreguntas;
 import modelo.Pregunta;
 import util.DBConnection;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,6 +30,9 @@ public class ServicioPregunta {
         int idGenerado;
 
         try {
+//            if (connection == null || connection.isClosed()){
+//                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+//            }
             conn = DBConnection.getConnection();
 
             for (Pregunta p : lista.getListaPreguntas()) {
@@ -125,7 +129,7 @@ public class ServicioPregunta {
                 if (conn != null && !conn.isClosed()) {
                     conn.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -158,7 +162,7 @@ public class ServicioPregunta {
                 if (conn != null && !conn.isClosed()) {
                     conn.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
