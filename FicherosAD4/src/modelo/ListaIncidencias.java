@@ -12,9 +12,9 @@ public class ListaIncidencias {
         incidencias = ServicioFicheros.leerIncidencias();
     }
 
-    public void guardarIncidencia(Incidencia i) {
-        incidencias.add(i);
-        ServicioFicheros.guardarIncidencia(i);
+    public void guardarIncidencia(Incidencia incidencia) {
+        incidencias.add(incidencia);
+        ServicioFicheros.guardarIncidencia(incidencia);
     }
 
     public List<Incidencia> obtenerIncidencias() {

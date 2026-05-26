@@ -17,11 +17,11 @@ public class ControladorIncidencias {
         ListaIncidencias datos;
         int opcion;
         boolean salir;
+        String usuarioBuscado;
 
         usuario = Escaner.pedirString("Introduce tu nombre de usuario:");
         datos = new ListaIncidencias();
         salir = false;
-        String usuarioBuscado;
 
         while (!salir) {
             Consola.menuPrincipal(usuario);
