@@ -27,7 +27,6 @@ public class ServicioFichero {
         String lineaResp;
         String correcta;
 
-        // Delegamos la lectura física al repositorio.
         lineas = fichero.leerFichero();
 
         // Iteramos de 7 en 7.

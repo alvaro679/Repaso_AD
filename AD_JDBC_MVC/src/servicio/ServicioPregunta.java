@@ -36,10 +36,7 @@ public class ServicioPregunta {
             conn = DBConnection.getConnection();
 
             for (Pregunta p : lista.getListaPreguntas()) {
-                // POR QUÉ (Integridad Referencial): Usamos RETURN_GENERATED_KEYS.
-                // Necesitamos saber qué ID le ha puesto MySQL a la pregunta para poder usar ese mismo número
-                // al guardar su respuesta correcta en la otra tabla.
-                // setString sustituye los ? en las sentencias SQL.
+
                 psPregunta = conn.prepareStatement(sqlPregunta, Statement.RETURN_GENERATED_KEYS);
                 psPregunta.setString(1, p.getEnunciado());
                 psPregunta.setString(2, p.getOpciones().get(0));
@@ -76,7 +73,7 @@ public class ServicioPregunta {
                     conn.close();
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }
@@ -86,6 +83,7 @@ public class ServicioPregunta {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        List<String> opcionesAux;
 
         // Usamos ORDER BY RAND().
         // Delegamos en la base de datos la tarea de desordenar las preguntas para que la partida sea impredecible.
@@ -99,9 +97,8 @@ public class ServicioPregunta {
             ps.setInt(1, cantidad);
             rs = ps.executeQuery();
 
-            // Bucle que recorre fila a fila los resultados devueltos por la base de datos.
             while (rs.next()) {
-                List<String> opcionesAux = new ArrayList<>();
+                opcionesAux = new ArrayList<>();
 
                 opcionesAux.add(rs.getString("opcion1"));
                 opcionesAux.add(rs.getString("opcion2"));
@@ -139,25 +136,46 @@ public class ServicioPregunta {
 
     public void borrarTodo() {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement psBorrarRespuestas = null;
+        PreparedStatement psBorrarPreguntas = null;
+        PreparedStatement psReiniciarPreguntas = null;
+        PreparedStatement psReiniciarRespuestas = null;
+
+        String sqlBorrarRespuestas = "DELETE FROM respuestas_correctas";
+        String sqlBorrarPreguntas = "DELETE FROM preguntas";
+        String sqlReiniciarPreguntas = "ALTER TABLE preguntas AUTO_INCREMENT = 1";
+        String sqlReiniciarRespuestas = "ALTER TABLE respuestas_correctas AUTO_INCREMENT = 1";
 
         try {
             conn = DBConnection.getConnection();
-            stmt = conn.createStatement();
 
-            stmt.executeUpdate("DELETE FROM respuestas_correctas");
-            stmt.executeUpdate("DELETE FROM preguntas");
+            psBorrarRespuestas = conn.prepareStatement(sqlBorrarRespuestas);
+            psBorrarRespuestas.executeUpdate();
 
-            // Reiniciamos el contador AUTO_INCREMENT a 1.
-            stmt.executeUpdate("ALTER TABLE preguntas AUTO_INCREMENT = 1");
-            stmt.executeUpdate("ALTER TABLE respuestas_correctas AUTO_INCREMENT = 1");
+            psBorrarPreguntas = conn.prepareStatement(sqlBorrarPreguntas);
+            psBorrarPreguntas.executeUpdate();
+
+            psReiniciarPreguntas = conn.prepareStatement(sqlReiniciarPreguntas);
+            psReiniciarPreguntas.executeUpdate();
+
+            psReiniciarRespuestas = conn.prepareStatement(sqlReiniciarRespuestas);
+            psReiniciarRespuestas.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                if (stmt != null) {
-                    stmt.close();
+                if (psReiniciarRespuestas != null) {
+                    psReiniciarRespuestas.close();
+                }
+                if (psReiniciarPreguntas != null) {
+                    psReiniciarPreguntas.close();
+                }
+                if (psBorrarPreguntas != null) {
+                    psBorrarPreguntas.close();
+                }
+                if (psBorrarRespuestas != null) {
+                    psBorrarRespuestas.close();
                 }
                 if (conn != null && !conn.isClosed()) {
                     conn.close();
