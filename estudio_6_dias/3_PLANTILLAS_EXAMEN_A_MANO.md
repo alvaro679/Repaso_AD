@@ -396,7 +396,6 @@ ps.setInt(4, idProducto);
 ps.executeUpdate();
 ```
 
-## Lo que no debes escribir como codigo Java
+## Como usar el enunciado de JDBC
 
-No metas `CREATE TABLE` en el programa salvo que el enunciado lo pida expresamente. En el examen anterior, la estructura de tablas era informacion para consultar columnas y relaciones.
-
+Lee la estructura de la base de datos para sacar nombres de tablas, columnas, ids y relaciones. Despues escribe solo las operaciones necesarias: `SELECT`, `INSERT`, `UPDATE` o `DELETE`.

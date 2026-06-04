@@ -50,7 +50,7 @@ Responde sin mirar. Si dudas mas de 10 segundos, esa tarjeta cuenta como fallada
 7. Que debes cerrar en el `finally`?
 8. Como se escribe un `LIKE` seguro con `PreparedStatement`?
 9. Para que sirve `Statement.RETURN_GENERATED_KEYS`?
-10. Por que no debes escribir `CREATE TABLE` si el enunciado solo te da la estructura?
+10. Como decides que tablas, columnas e ids usar en una consulta JDBC?
 
 ## Examen anterior
 
@@ -59,4 +59,3 @@ Responde sin mirar. Si dudas mas de 10 segundos, esa tarjeta cuenta como fallada
 3. En el ejercicio de webs, que columna se filtra con `LIKE`?
 4. En el ejercicio de ventas, por que necesitas ids de supermercado y producto?
 5. Que pasa si haces todo en `main` aunque el algoritmo sea correcto?
-

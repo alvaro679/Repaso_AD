@@ -144,14 +144,11 @@ SELECT con JOIN
   -> add a List<Pregunta>
 ```
 
-### Regla importante sobre tablas
+### Regla importante sobre JDBC
 
-No tienes que escribir `CREATE TABLE` en el codigo Java.
-
-El enunciado te da la estructura para saber:
+El enunciado te da la estructura de la base de datos para saber:
 
 - que tabla consultar;
 - que columnas usar;
 - que ids relacionan tablas;
 - que campos insertar, actualizar o mostrar.
-

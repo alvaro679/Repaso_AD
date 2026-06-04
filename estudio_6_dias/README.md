@@ -9,7 +9,9 @@ La idea no es leer pasivamente. La idea es reconstruir codigo a mano hasta que p
 
 ## Como usar este pack
 
-Cada dia repite este ciclo:
+Empieza por `0_EMPIEZA_AQUI.md` y despues trabaja cada dia con `1_CHECKLIST_6_DIAS.md`.
+
+Cada bloque repite este ciclo:
 
 1. Mira el mapa o plantilla correspondiente durante pocos minutos.
 2. Cierra el material.
@@ -21,15 +23,15 @@ Si solo lees, no estas estudiando para este examen. Estas reconociendo codigo, q
 
 ## Orden recomendado
 
-1. `CHECKLIST_6_DIAS.md`: que hacer cada dia y cuando puedes pasar al siguiente.
-2. `MAPA_PROYECTOS.md`: como se conectan las clases de los dos proyectos.
-3. `PLANTILLAS_EXAMEN_A_MANO.md`: patrones que debes poder escribir sin mirar.
-4. `SIMULACROS_Y_CORRECCION.md`: ejercicios cronometrados y rubrica de autocorreccion.
-5. `TARJETAS_MEMORIA.md`: preguntas rapidas para comprobar si lo tienes de verdad.
+0. `0_EMPIEZA_AQUI.md`: instrucciones simples para empezar sin perderte.
+1. `1_CHECKLIST_6_DIAS.md`: guia exacta con bloques, tiempos, archivos y ejercicios de cada dia.
+2. `2_MAPA_PROYECTOS.md`: como se conectan las clases de los dos proyectos.
+3. `3_PLANTILLAS_EXAMEN_A_MANO.md`: patrones que debes poder escribir sin mirar.
+4. `4_SIMULACROS_Y_CORRECCION.md`: ejercicios cronometrados y rubrica de autocorreccion.
+5. `5_TARJETAS_MEMORIA.md`: preguntas rapidas para comprobar si lo tienes de verdad.
 
 ## Regla clave de JDBC
 
-No estudies `CREATE TABLE` como codigo que tengas que escribir en Java.
+En el examen, la estructura de la base de datos se usa como informacion: nombres de tablas, columnas, ids y relaciones.
 
-En el examen, la estructura de tablas se usa como informacion: nombres de tablas, columnas, ids y relaciones. Tu codigo JDBC debe consultar, insertar, actualizar o borrar datos en tablas que ya existen.
-
+Tu codigo JDBC debe centrarse en consultar, insertar, actualizar o borrar datos usando esos nombres correctamente.

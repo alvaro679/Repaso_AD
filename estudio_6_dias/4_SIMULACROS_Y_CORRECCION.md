@@ -94,7 +94,7 @@ Obligatorio:
 
 Autocorreccion:
 
-- [ ] No escribiste `CREATE TABLE`.
+- [ ] Usaste las tablas y columnas indicadas por el enunciado.
 - [ ] Usaste `LIKE ?` con `%palabra%`.
 - [ ] Cerraste `ResultSet`, `PreparedStatement` y `Connection`.
 - [ ] Evitaste duplicados si una web coincide con varias palabras.
@@ -106,7 +106,7 @@ Tiempo: 90-120 minutos.
 
 Contexto:
 
-Las tablas ya existen:
+El enunciado indica estas tablas:
 
 ```text
 Tabla_supermercados: Id_supermercado, Nombre_supermercado
@@ -129,7 +129,7 @@ Obligatorio:
 
 Autocorreccion:
 
-- [ ] No creaste tablas en Java.
+- [ ] Usaste los nombres de tablas y columnas del enunciado.
 - [ ] Usaste ids para relacionar ventas.
 - [ ] Agrupaste por supermercado + producto.
 - [ ] Sumaste unidades.
@@ -188,4 +188,3 @@ Debes llegar a 2 o 3 en:
 - SELECT JDBC.
 - LIKE JDBC.
 - Agrupacion de datos.
-
