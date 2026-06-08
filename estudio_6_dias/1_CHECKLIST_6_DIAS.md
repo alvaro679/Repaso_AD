@@ -2,6 +2,8 @@
 
 Esta es la guia que tienes que seguir. No la leas entera cada dia. Abre el dia que toca y ejecuta los pasos.
 
+Nota: las casillas de este Markdown pueden no marcarse al hacer click segun el editor. Si quieres checkboxes interactivos, abre `checklist_interactiva.html` en un navegador.
+
 Regla base:
 
 ```text
@@ -43,6 +45,10 @@ AD_JDBC_MVC/src/modelo/ListaPreguntas.java
 
 Tiempo: 20 minutos.
 
+- [ ] Abre `estudio_6_dias/2_MAPA_PROYECTOS.md`.
+- [ ] Mira solo `Patron comun`, `FicherosAD4` y `AD_JDBC_MVC`.
+- [ ] Cierra el archivo.
+
 En una hoja, dibuja:
 
 ```text
@@ -72,7 +78,7 @@ Vista/Escaner muestra y pide datos.
 
 Tiempo: 35 minutos.
 
-- [ ] Mira `Incidencia.java` durante 5 minutos.
+- [ ] Mira `FicherosAD4/src/modelo/Incidencia.java` durante 5 minutos.
 - [ ] Cierra el archivo.
 - [ ] Escribe la clase a mano.
 - [ ] Comprueba si pusiste `package`, atributos privados, constructor, getters y `toString`.
@@ -82,7 +88,7 @@ Tiempo: 35 minutos.
 
 Tiempo: 30 minutos.
 
-- [ ] Mira `ListaIncidencias.java` durante 5 minutos.
+- [ ] Mira `FicherosAD4/src/modelo/ListaIncidencias.java` durante 5 minutos.
 - [ ] Cierra el archivo.
 - [ ] Escribe la clase a mano.
 - [ ] Comprueba si pusiste `List<Incidencia>`, constructor, `guardarIncidencia` y `obtenerIncidencias`.
@@ -92,8 +98,12 @@ Tiempo: 30 minutos.
 
 Tiempo: 45 minutos.
 
-- [ ] Repite el mismo proceso con `Pregunta.java`.
-- [ ] Repite el mismo proceso con `ListaPreguntas.java`.
+- [ ] Abre `AD_JDBC_MVC/src/modelo/Pregunta.java`.
+- [ ] Mira sus atributos: `id`, `enunciado`, `opciones`, `respuestaCorrecta`.
+- [ ] Cierra el archivo y escribe `Pregunta` a mano.
+- [ ] Abre `AD_JDBC_MVC/src/modelo/ListaPreguntas.java`.
+- [ ] Mira `List<Pregunta> listaPreguntas`, constructores, `getListaPreguntas` y `addPregunta`.
+- [ ] Cierra el archivo y escribe `ListaPreguntas` a mano.
 - [ ] Comprueba si sabes escribir `List<String> opciones`.
 - [ ] Comprueba si sabes escribir `addPregunta(Pregunta p)`.
 
@@ -131,7 +141,8 @@ FicherosAD4/src/servicio/ServicioFicheros.java
 
 Tiempo: 45 minutos.
 
-- [ ] Mira `Fichero.leerFichero` durante 10 minutos.
+- [ ] Abre `FicherosAD4/src/repositorio/Fichero.java`.
+- [ ] Mira solo el metodo `leerFichero` durante 10 minutos.
 - [ ] Cierra el archivo.
 - [ ] Escribe el metodo a mano.
 - [ ] Comprueba si pusiste `File`, `FileReader`, `BufferedReader`, `List<String>`, `while (linea != null)`, `catch` y `finally`.
@@ -141,7 +152,8 @@ Tiempo: 45 minutos.
 
 Tiempo: 35 minutos.
 
-- [ ] Mira `Fichero.escribirLinea` durante 8 minutos.
+- [ ] Abre `FicherosAD4/src/repositorio/Fichero.java`.
+- [ ] Mira solo el metodo `escribirLinea` durante 8 minutos.
 - [ ] Cierra el archivo.
 - [ ] Escribe el metodo a mano.
 - [ ] Comprueba si pusiste `FileWriter(ruta, true)`, `BufferedWriter`, `write`, `newLine`, `catch` y `finally`.
@@ -150,7 +162,10 @@ Tiempo: 35 minutos.
 
 Tiempo: 30 minutos.
 
-- [ ] Mira `ServicioFicheros.guardarIncidencia`.
+- [ ] Abre `FicherosAD4/src/servicio/ServicioFicheros.java`.
+- [ ] Mira solo el metodo `guardarIncidencia(Incidencia incidencia)`.
+- [ ] Fijate en la parte donde crea `String linea = incidencia.getUsuario() + ";" + ...`.
+- [ ] Fijate en la llamada final `fichero.escribirLinea(linea)`.
 - [ ] Cierra el archivo.
 - [ ] Escribe el patron:
 
@@ -162,7 +177,12 @@ objeto -> campos separados con ; -> fichero.escribirLinea(linea)
 
 Tiempo: 35 minutos.
 
-- [ ] Mira `ServicioFicheros.leerIncidencias`.
+- [ ] Abre `FicherosAD4/src/servicio/ServicioFicheros.java`.
+- [ ] Mira solo el metodo `leerIncidencias()`.
+- [ ] Fijate en `List<String> lineas = fichero.leerFichero()`.
+- [ ] Fijate en el `for (String linea : lineas)`.
+- [ ] Fijate en `partes = linea.split(";")`.
+- [ ] Fijate en `new Incidencia(...)` y `lista.add(incidencia)`.
 - [ ] Cierra el archivo.
 - [ ] Escribe el patron:
 
@@ -209,6 +229,12 @@ FicherosAD4/src/vista/Consola.java
 
 Tiempo: 30 minutos.
 
+- [ ] Abre `FicherosAD4/src/controlador/ControladorIncidencias.java`.
+- [ ] Mira solo el metodo `iniciar()`.
+- [ ] Localiza las variables `usuario`, `datos`, `opcion`, `salir` y `usuarioBuscado`.
+- [ ] Localiza el `while (!salir)` y el `switch (opcion)`.
+- [ ] Cierra el archivo.
+
 Dibuja y memoriza:
 
 ```text
@@ -226,7 +252,10 @@ llamar metodo correspondiente
 
 Tiempo: 45 minutos.
 
+- [ ] Abre `FicherosAD4/src/controlador/ControladorIncidencias.java`.
 - [ ] Mira `ControladorIncidencias.iniciar` durante 10 minutos.
+- [ ] Fijate en que el controlador llama a `Consola.menuPrincipal(usuario)` y a `Escaner.pedirInt(...)`.
+- [ ] Fijate en que cada `case` llama a otro metodo o cambia `salir`.
 - [ ] Cierra el archivo.
 - [ ] Escribe un metodo `iniciar` parecido.
 - [ ] Comprueba si pusiste variables, bucle, menu, `switch`, `case`, `default` y salida.
@@ -234,6 +263,11 @@ Tiempo: 45 minutos.
 ### Bloque 3 - Metodos con parametros
 
 Tiempo: 45 minutos.
+
+- [ ] Abre `FicherosAD4/src/controlador/ControladorIncidencias.java`.
+- [ ] Mira solo estos metodos: `registrarExcepcion`, `buscarPorUsuario` y `buscarPorFechas`.
+- [ ] En cada metodo, subraya mentalmente que parametros recibe y que lista recorre o modifica.
+- [ ] Cierra el archivo.
 
 Escribe de memoria metodos parecidos a:
 
@@ -249,9 +283,12 @@ No es suficiente saber el nombre. Debes saber que recibe cada metodo y por que.
 
 Tiempo: 30 minutos.
 
-- [ ] Escribe `pedirString`.
-- [ ] Escribe `pedirInt`.
-- [ ] Escribe un menu simple en `Consola`.
+- [ ] Abre `FicherosAD4/src/vista/Escaner.java`.
+- [ ] Mira `pedirString` y `pedirInt`.
+- [ ] Cierra el archivo y escribe ambos metodos.
+- [ ] Abre `FicherosAD4/src/vista/Consola.java`.
+- [ ] Mira `menuPrincipal` y `menuExcepciones`.
+- [ ] Cierra el archivo y escribe un menu simple en `Consola`.
 
 ### Bloque 5 - Ejercicio del dia
 
@@ -264,6 +301,14 @@ leerLetras()
 crearFicheros(...)
 escribirPalabras(...)
 mostrarResumen(...)
+```
+
+Si te bloqueas, consulta solo:
+
+```text
+FicherosAD4/src/repositorio/Fichero.java
+FicherosAD4/src/servicio/ServicioFicheros.java
+FicherosAD4/src/vista/Escaner.java
 ```
 
 Puedes pasar al dia 4 si tus ejercicios ya no dependen de un `main` gigante.
@@ -285,7 +330,7 @@ AD_JDBC_MVC/src/servicio/ServicioPregunta.java
 
 Tiempo: 30 minutos.
 
-- [ ] Mira `DBConnection.java` durante 8 minutos.
+- [ ] Mira `AD_JDBC_MVC/src/util/DBConnection.java` durante 8 minutos.
 - [ ] Cierra el archivo.
 - [ ] Escribe la clase a mano.
 - [ ] Comprueba si pusiste `URL`, `USER`, `PASSWORD`, constructor privado y `getConnection`.
@@ -293,6 +338,15 @@ Tiempo: 30 minutos.
 ### Bloque 2 - INSERT con PreparedStatement
 
 Tiempo: 45 minutos.
+
+- [ ] Abre `AD_JDBC_MVC/src/servicio/ServicioPregunta.java`.
+- [ ] Mira dentro de `guardarListaEnBD`.
+- [ ] Localiza `String sqlPregunta = "INSERT INTO preguntas ..."` .
+- [ ] Localiza `conn = DBConnection.getConnection()`.
+- [ ] Localiza `psPregunta = conn.prepareStatement(sqlPregunta, Statement.RETURN_GENERATED_KEYS)`.
+- [ ] Localiza los `psPregunta.setString(...)`.
+- [ ] Localiza `psPregunta.executeUpdate()`.
+- [ ] Cierra el archivo.
 
 Escribe una plantilla de `INSERT` con:
 
@@ -310,6 +364,15 @@ finally cerrar ps y conn
 ### Bloque 3 - SELECT con ResultSet
 
 Tiempo: 50 minutos.
+
+- [ ] Abre `AD_JDBC_MVC/src/servicio/ServicioPregunta.java`.
+- [ ] Mira dentro de `obtenerPreguntasAleatorias`.
+- [ ] Localiza el `SELECT ... FROM preguntas p JOIN respuestas_correctas r ...`.
+- [ ] Localiza `ps.setInt(1, cantidad)`.
+- [ ] Localiza `rs = ps.executeQuery()`.
+- [ ] Localiza `while (rs.next())`.
+- [ ] Localiza donde crea `opcionesAux` y `new Pregunta(...)`.
+- [ ] Cierra el archivo.
 
 Escribe una plantilla de `SELECT` con:
 
@@ -329,10 +392,11 @@ cerrar rs, ps y conn
 
 Tiempo: 50 minutos.
 
-- [ ] Estudia `guardarListaEnBD`.
-- [ ] Estudia `obtenerPreguntasAleatorias`.
-- [ ] Escribe a mano la idea de cada metodo, no necesariamente todas las lineas exactas.
-- [ ] Practica `Statement.RETURN_GENERATED_KEYS` si necesitas relacionar dos inserts.
+- [ ] Vuelve a abrir `AD_JDBC_MVC/src/servicio/ServicioPregunta.java`.
+- [ ] En `guardarListaEnBD`, fijate en el flujo: recorrer lista, insertar pregunta, recuperar id, insertar respuesta.
+- [ ] En `obtenerPreguntasAleatorias`, fijate en el flujo: consultar BD, recorrer `ResultSet`, crear objetos, devolver lista.
+- [ ] Escribe a mano la idea de cada metodo en 5-7 lineas.
+- [ ] Practica `Statement.RETURN_GENERATED_KEYS` mirando las lineas donde se usa `getGeneratedKeys`.
 
 ### Bloque 5 - Comprobacion
 
@@ -363,6 +427,13 @@ Hoy no empiezas mirando codigo. Primero intentas resolver.
 
 Tiempo: 45 minutos.
 
+Antes de empezar, no mires codigo. Si tras 10 minutos te quedas bloqueado, consulta:
+
+```text
+FicherosAD4/src/repositorio/Fichero.java
+FicherosAD4/src/servicio/ServicioFicheros.java
+```
+
 Resuelve:
 
 ```text
@@ -376,6 +447,14 @@ sumar filtrados
 ### Bloque 2 - Letras y ficheros
 
 Tiempo: 60 minutos.
+
+Antes de empezar, no mires codigo. Si te bloqueas, consulta:
+
+```text
+FicherosAD4/src/repositorio/Fichero.java
+FicherosAD4/src/vista/Escaner.java
+FicherosAD4/src/controlador/ControladorIncidencias.java
+```
 
 Resuelve:
 
@@ -391,6 +470,16 @@ contar escritas y no escritas
 
 Tiempo: 60 minutos.
 
+Antes de empezar, no mires codigo. Si te bloqueas, consulta:
+
+```text
+AD_JDBC_MVC/src/util/DBConnection.java
+AD_JDBC_MVC/src/servicio/ServicioPregunta.java
+estudio_6_dias/3_PLANTILLAS_EXAMEN_A_MANO.md
+```
+
+En `ServicioPregunta`, usa `obtenerPreguntasAleatorias` como patron de `SELECT + ResultSet`. En plantillas, busca `JDBC LIKE con palabras`.
+
 Resuelve:
 
 ```text
@@ -404,6 +493,15 @@ mostrar resultados
 ### Bloque 4 - Ventas agrupadas
 
 Tiempo: 75 minutos.
+
+Antes de empezar, no mires codigo. Si te bloqueas, consulta:
+
+```text
+AD_JDBC_MVC/src/servicio/ServicioPregunta.java
+estudio_6_dias/3_PLANTILLAS_EXAMEN_A_MANO.md
+```
+
+Usa `guardarListaEnBD` como patron de `INSERT` y `obtenerPreguntasAleatorias` como patron de `SELECT`.
 
 Resuelve:
 
@@ -440,6 +538,18 @@ Objetivo: comprobar si puedes producir codigo bajo presion.
 
 Tiempo: 90 minutos.
 
+Primero escribe sin mirar. Despues compara con:
+
+```text
+FicherosAD4/src/Main.java
+FicherosAD4/src/modelo/Incidencia.java
+FicherosAD4/src/modelo/ListaIncidencias.java
+FicherosAD4/src/repositorio/Fichero.java
+FicherosAD4/src/servicio/ServicioFicheros.java
+FicherosAD4/src/controlador/ControladorIncidencias.java
+FicherosAD4/src/vista/Escaner.java
+```
+
 Escribe a mano un proyecto completo con:
 
 ```text
@@ -463,6 +573,18 @@ No mires codigo.
 ### Bloque 3 - Proyecto JDBC
 
 Tiempo: 120 minutos.
+
+Primero escribe sin mirar. Despues compara con:
+
+```text
+AD_JDBC_MVC/src/Main.java
+AD_JDBC_MVC/src/modelo/Pregunta.java
+AD_JDBC_MVC/src/modelo/ListaPreguntas.java
+AD_JDBC_MVC/src/util/DBConnection.java
+AD_JDBC_MVC/src/servicio/ServicioPregunta.java
+AD_JDBC_MVC/src/controlador/ControladorPreguntas.java
+AD_JDBC_MVC/src/vista/Escaner.java
+```
 
 Escribe a mano un proyecto completo con:
 
@@ -504,4 +626,3 @@ separacion por clases
 ```
 
 Estas listo si puedes escribir una solucion estructurada aunque tenga errores menores de sintaxis.
-

@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checklist interactiva - Repaso AD</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #1e2630;
+      --muted: #667085;
+      --line: #d7dde5;
+      --accent: #1f6feb;
+      --accent-soft: #e8f1ff;
+      --done: #138a54;
+      --warn: #9a5b00;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      padding: 24px 20px;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      line-height: 1.15;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 21px;
+    }
+
+    h3 {
+      margin: 18px 0 8px;
+      font-size: 16px;
+    }
+
+    p {
+      margin: 0 0 10px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 9px 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .primary:hover {
+      background: #185bc1;
+      color: #ffffff;
+    }
+
+    main {
+      padding: 22px 20px 44px;
+    }
+
+    .progress-panel,
+    .day {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .progress-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .bar {
+      height: 12px;
+      background: #e5e9ef;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--done));
+      transition: width 160ms ease;
+    }
+
+    .progress-text {
+      color: var(--muted);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .objective {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .day-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .block {
+      border-left: 4px solid var(--accent);
+      padding: 8px 0 8px 12px;
+      margin: 10px 0 14px;
+    }
+
+    .time {
+      color: var(--warn);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 8px;
+      align-items: start;
+      padding: 7px 0;
+      border-bottom: 1px solid #edf0f4;
+    }
+
+    li:last-child {
+      border-bottom: 0;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--done);
+      cursor: pointer;
+    }
+
+    label {
+      cursor: pointer;
+    }
+
+    code {
+      background: #eef2f7;
+      border: 1px solid #dde3ea;
+      border-radius: 4px;
+      padding: 1px 4px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.95em;
+    }
+
+    .note {
+      border-left: 4px solid var(--done);
+      background: #edf8f2;
+      padding: 10px 12px;
+      border-radius: 6px;
+      color: #174b33;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 24px;
+      }
+
+      .day-header,
+      .progress-row {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .day-actions {
+        width: 100%;
+      }
+
+      .day-actions button {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Checklist interactiva de 6 dias</h1>
+      <p class="subtitle">Marca cada tarea al completarla. El progreso se guarda automaticamente en este navegador.</p>
+      <div class="toolbar">
+        <button class="primary" type="button" id="expandAll">Mostrar todos los dias</button>
+        <button type="button" id="collapseDone">Plegar dias completados</button>
+        <button type="button" id="resetAll">Borrar todo el progreso</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="progress-panel">
+        <h2>Progreso total</h2>
+        <div class="progress-row">
+          <div class="bar" aria-hidden="true"><div class="bar-fill" id="totalFill"></div></div>
+          <div class="progress-text" id="totalText">0 / 0</div>
+        </div>
+        <p class="note">Si una tarea no se marca al hacer click, abre este archivo en un navegador. Los Markdown no siempre guardan checkboxes.</p>
+      </section>
+
+      <section class="day" data-day="1">
+        <div class="day-header">
+          <div>
+            <h2>Dia 1 - Modelos y listas</h2>
+            <p class="objective">Objetivo: escribir clases de datos y listas sin quedarte en blanco.</p>
+          </div>
+          <div class="day-actions">
+            <button type="button" data-action="toggle-day">Marcar dia</button>
+            <button type="button" data-action="clear-day">Limpiar</button>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 1 - Mapa rapido</h3>
+          <p class="time">20 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d1-1"><label for="d1-1">Abrir <code>estudio_6_dias/2_MAPA_PROYECTOS.md</code> y mirar solo <code>Patron comun</code>, <code>FicherosAD4</code> y <code>AD_JDBC_MVC</code>.</label></li>
+            <li><input type="checkbox" id="d1-14"><label for="d1-14">Cerrar el archivo y dibujar <code>Main -> Controlador -> Modelo -> Lista -> Servicio -> Fichero/DBConnection -> Vista/Escaner</code>.</label></li>
+            <li><input type="checkbox" id="d1-2"><label for="d1-2">Escribir de memoria que hace cada capa.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 2 - Incidencia</h3>
+          <p class="time">35 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d1-3"><label for="d1-3">Mirar <code>FicherosAD4/src/modelo/Incidencia.java</code> durante 5 minutos.</label></li>
+            <li><input type="checkbox" id="d1-4"><label for="d1-4">Cerrar el archivo y escribir la clase a mano.</label></li>
+            <li><input type="checkbox" id="d1-5"><label for="d1-5">Comprobar <code>package</code>, atributos privados, constructor, getters y <code>toString</code>.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 3 - ListaIncidencias</h3>
+          <p class="time">30 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d1-6"><label for="d1-6">Mirar <code>FicherosAD4/src/modelo/ListaIncidencias.java</code> durante 5 minutos.</label></li>
+            <li><input type="checkbox" id="d1-7"><label for="d1-7">Cerrar y escribir <code>List&lt;Incidencia&gt;</code>, constructor, <code>guardarIncidencia</code> y <code>obtenerIncidencias</code>.</label></li>
+            <li><input type="checkbox" id="d1-8"><label for="d1-8">Explicar en voz alta que la lista guarda muchas incidencias.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 4 - Pregunta y ListaPreguntas</h3>
+          <p class="time">45 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d1-9"><label for="d1-9">Abrir <code>AD_JDBC_MVC/src/modelo/Pregunta.java</code> y mirar atributos, constructor y getters.</label></li>
+            <li><input type="checkbox" id="d1-15"><label for="d1-15">Cerrar el archivo y escribir <code>Pregunta</code> a mano.</label></li>
+            <li><input type="checkbox" id="d1-10"><label for="d1-10">Abrir <code>AD_JDBC_MVC/src/modelo/ListaPreguntas.java</code> y mirar <code>List&lt;Pregunta&gt;</code>, constructores y <code>addPregunta</code>.</label></li>
+            <li><input type="checkbox" id="d1-16"><label for="d1-16">Cerrar el archivo y escribir <code>ListaPreguntas</code> a mano.</label></li>
+            <li><input type="checkbox" id="d1-11"><label for="d1-11">Escribir sin mirar <code>List&lt;String&gt; opciones</code> y <code>addPregunta(Pregunta p)</code>.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 5 - Comprobacion</h3>
+          <p class="time">20 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d1-12"><label for="d1-12">Responder sin mirar que es un modelo, una lista, un constructor y un getter.</label></li>
+            <li><input type="checkbox" id="d1-13"><label for="d1-13">Confirmar que puedes escribir una clase modelo y una clase lista sin quedarte en blanco.</label></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="day" data-day="2">
+        <div class="day-header">
+          <div>
+            <h2>Dia 2 - Ficheros</h2>
+            <p class="objective">Objetivo: leer, escribir y convertir texto en objetos.</p>
+          </div>
+          <div class="day-actions">
+            <button type="button" data-action="toggle-day">Marcar dia</button>
+            <button type="button" data-action="clear-day">Limpiar</button>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 1 - Leer fichero</h3>
+          <p class="time">45 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d2-1"><label for="d2-1">Abrir <code>FicherosAD4/src/repositorio/Fichero.java</code> y mirar solo <code>leerFichero</code> durante 10 minutos.</label></li>
+            <li><input type="checkbox" id="d2-2"><label for="d2-2">Cerrar y escribir el metodo a mano.</label></li>
+            <li><input type="checkbox" id="d2-3"><label for="d2-3">Comprobar <code>File</code>, <code>FileReader</code>, <code>BufferedReader</code>, <code>List&lt;String&gt;</code>, <code>while</code>, <code>catch</code> y <code>finally</code>.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 2 - Escribir fichero</h3>
+          <p class="time">35 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d2-4"><label for="d2-4">Abrir <code>FicherosAD4/src/repositorio/Fichero.java</code> y mirar solo <code>escribirLinea</code> durante 8 minutos.</label></li>
+            <li><input type="checkbox" id="d2-5"><label for="d2-5">Cerrar y escribir el metodo a mano.</label></li>
+            <li><input type="checkbox" id="d2-6"><label for="d2-6">Comprobar <code>FileWriter(ruta, true)</code>, <code>BufferedWriter</code>, <code>write</code>, <code>newLine</code>, <code>catch</code> y <code>finally</code>.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 3 - Convertir objeto a texto</h3>
+          <p class="time">30 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d2-7"><label for="d2-7">Abrir <code>FicherosAD4/src/servicio/ServicioFicheros.java</code> y mirar solo <code>guardarIncidencia(Incidencia incidencia)</code>.</label></li>
+            <li><input type="checkbox" id="d2-8"><label for="d2-8">Localizar <code>String linea = incidencia.getUsuario() + ";" + ...</code>.</label></li>
+            <li><input type="checkbox" id="d2-11"><label for="d2-11">Localizar <code>fichero.escribirLinea(linea)</code>.</label></li>
+            <li><input type="checkbox" id="d2-12"><label for="d2-12">Cerrar el archivo y escribir el patron <code>objeto -> campos con ; -> escribirLinea</code>.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 4 - Convertir texto a objeto</h3>
+          <p class="time">35 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d2-13"><label for="d2-13">Abrir <code>FicherosAD4/src/servicio/ServicioFicheros.java</code> y mirar solo <code>leerIncidencias()</code>.</label></li>
+            <li><input type="checkbox" id="d2-14"><label for="d2-14">Localizar <code>List&lt;String&gt; lineas = fichero.leerFichero()</code> y el <code>for (String linea : lineas)</code>.</label></li>
+            <li><input type="checkbox" id="d2-15"><label for="d2-15">Localizar <code>partes = linea.split(";")</code>.</label></li>
+            <li><input type="checkbox" id="d2-16"><label for="d2-16">Localizar <code>new Incidencia(...)</code> y <code>lista.add(incidencia)</code>.</label></li>
+            <li><input type="checkbox" id="d2-17"><label for="d2-17">Cerrar el archivo y escribir el patron <code>leer lineas -> split(";") -> new Objeto -> lista.add</code>.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 5 - Ejercicio</h3>
+          <p class="time">60 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d2-9"><label for="d2-9">Resolver numeros hasta <code>Fin</code>, filtrando 100 a 1000.</label></li>
+            <li><input type="checkbox" id="d2-10"><label for="d2-10">Calcular suma total, suma filtrada y escribir resultado en fichero.</label></li>
+            <li><input type="checkbox" id="d2-18"><label for="d2-18">Si te atascas, mirar solo <code>FicherosAD4/src/repositorio/Fichero.java</code> y <code>FicherosAD4/src/servicio/ServicioFicheros.java</code>.</label></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="day" data-day="3">
+        <div class="day-header">
+          <div>
+            <h2>Dia 3 - Controlador y flujo</h2>
+            <p class="objective">Objetivo: montar un programa sin meter todo en <code>main</code>.</p>
+          </div>
+          <div class="day-actions">
+            <button type="button" data-action="toggle-day">Marcar dia</button>
+            <button type="button" data-action="clear-day">Limpiar</button>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 1 - Flujo del controlador</h3>
+          <p class="time">30 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d3-1"><label for="d3-1">Abrir <code>FicherosAD4/src/controlador/ControladorIncidencias.java</code> y mirar solo <code>iniciar()</code>.</label></li>
+            <li><input type="checkbox" id="d3-11"><label for="d3-11">Localizar variables <code>usuario</code>, <code>datos</code>, <code>opcion</code>, <code>salir</code> y el <code>while (!salir)</code>.</label></li>
+            <li><input type="checkbox" id="d3-12"><label for="d3-12">Localizar <code>Consola.menuPrincipal(usuario)</code>, <code>Escaner.pedirInt(...)</code> y <code>switch (opcion)</code>.</label></li>
+            <li><input type="checkbox" id="d3-13"><label for="d3-13">Cerrar el archivo y dibujar <code>pedir usuario -> crear lista -> while -> menu -> opcion -> switch</code>.</label></li>
+            <li><input type="checkbox" id="d3-2"><label for="d3-2">Explicar por que el controlador organiza pero no deberia hacerlo todo.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 2 - Rehacer iniciar()</h3>
+          <p class="time">45 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d3-3"><label for="d3-3">Volver a mirar <code>ControladorIncidencias.iniciar</code> durante 10 minutos.</label></li>
+            <li><input type="checkbox" id="d3-14"><label for="d3-14">Fijarte en que cada <code>case</code> llama a otro metodo o cambia <code>salir</code>.</label></li>
+            <li><input type="checkbox" id="d3-4"><label for="d3-4">Cerrar y escribir un <code>iniciar</code> parecido.</label></li>
+            <li><input type="checkbox" id="d3-5"><label for="d3-5">Comprobar variables, bucle, menu, <code>switch</code>, <code>case</code>, <code>default</code> y salida.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 3 - Metodos con parametros</h3>
+          <p class="time">45 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d3-6"><label for="d3-6">Abrir <code>ControladorIncidencias.java</code> y mirar solo <code>registrarExcepcion</code>, <code>buscarPorUsuario</code> y <code>buscarPorFechas</code>.</label></li>
+            <li><input type="checkbox" id="d3-15"><label for="d3-15">En cada metodo, identificar que parametros recibe y que lista recorre o modifica.</label></li>
+            <li><input type="checkbox" id="d3-7"><label for="d3-7">Cerrar y escribir <code>registrarExcepcion(String usuario, ListaIncidencias datos, int tipoError)</code>.</label></li>
+            <li><input type="checkbox" id="d3-8"><label for="d3-8">Cerrar y escribir <code>buscarPorUsuario(String usuario, ListaIncidencias datos)</code> y <code>buscarPorFechas(ListaIncidencias datos)</code>.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 4 - Vista y ejercicio</h3>
+          <p class="time">90 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d3-9"><label for="d3-9">Abrir <code>FicherosAD4/src/vista/Escaner.java</code>, mirar <code>pedirString</code> y <code>pedirInt</code>, cerrar y escribirlos.</label></li>
+            <li><input type="checkbox" id="d3-16"><label for="d3-16">Abrir <code>FicherosAD4/src/vista/Consola.java</code>, mirar <code>menuPrincipal</code> y <code>menuExcepciones</code>, cerrar y escribir un menu simple.</label></li>
+            <li><input type="checkbox" id="d3-10"><label for="d3-10">Rehacer ejercicio de letras con <code>leerLetras</code>, <code>crearFicheros</code>, <code>escribirPalabras</code> y <code>mostrarResumen</code>.</label></li>
+            <li><input type="checkbox" id="d3-17"><label for="d3-17">Si te bloqueas, consultar solo <code>Fichero.java</code>, <code>ServicioFicheros.java</code> y <code>Escaner.java</code>.</label></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="day" data-day="4">
+        <div class="day-header">
+          <div>
+            <h2>Dia 4 - JDBC basico</h2>
+            <p class="objective">Objetivo: escribir JDBC usando tablas y columnas del enunciado.</p>
+          </div>
+          <div class="day-actions">
+            <button type="button" data-action="toggle-day">Marcar dia</button>
+            <button type="button" data-action="clear-day">Limpiar</button>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 1 - DBConnection</h3>
+          <p class="time">30 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d4-1"><label for="d4-1">Mirar <code>AD_JDBC_MVC/src/util/DBConnection.java</code> durante 8 minutos.</label></li>
+            <li><input type="checkbox" id="d4-2"><label for="d4-2">Cerrar y escribir la clase a mano.</label></li>
+            <li><input type="checkbox" id="d4-3"><label for="d4-3">Comprobar <code>URL</code>, <code>USER</code>, <code>PASSWORD</code>, constructor privado y <code>getConnection</code>.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 2 - INSERT</h3>
+          <p class="time">45 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d4-4"><label for="d4-4">Abrir <code>AD_JDBC_MVC/src/servicio/ServicioPregunta.java</code> y mirar dentro de <code>guardarListaEnBD</code>.</label></li>
+            <li><input type="checkbox" id="d4-12"><label for="d4-12">Localizar <code>String sqlPregunta = "INSERT INTO preguntas ..."</code>.</label></li>
+            <li><input type="checkbox" id="d4-13"><label for="d4-13">Localizar <code>conn = DBConnection.getConnection()</code> y <code>prepareStatement(...)</code>.</label></li>
+            <li><input type="checkbox" id="d4-14"><label for="d4-14">Localizar los <code>setString</code>, <code>executeUpdate</code> y <code>getGeneratedKeys</code>.</label></li>
+            <li><input type="checkbox" id="d4-5"><label for="d4-5">Cerrar el archivo y escribir una plantilla con <code>Connection</code>, <code>PreparedStatement</code>, SQL, <code>set...</code>, <code>executeUpdate</code> y cierres.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 3 - SELECT</h3>
+          <p class="time">50 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d4-6"><label for="d4-6">Abrir <code>AD_JDBC_MVC/src/servicio/ServicioPregunta.java</code> y mirar dentro de <code>obtenerPreguntasAleatorias</code>.</label></li>
+            <li><input type="checkbox" id="d4-15"><label for="d4-15">Localizar el <code>SELECT ... FROM preguntas p JOIN respuestas_correctas r ...</code>.</label></li>
+            <li><input type="checkbox" id="d4-16"><label for="d4-16">Localizar <code>ps.setInt(1, cantidad)</code>, <code>rs = ps.executeQuery()</code> y <code>while (rs.next())</code>.</label></li>
+            <li><input type="checkbox" id="d4-7"><label for="d4-7">Localizar donde crea <code>opcionesAux</code> y <code>new Pregunta(...)</code> desde columnas del <code>ResultSet</code>.</label></li>
+            <li><input type="checkbox" id="d4-8"><label for="d4-8">Cerrar el archivo y escribir una plantilla con <code>ResultSet</code>, <code>executeQuery</code>, <code>while (rs.next())</code> y cierres.</label></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Bloque 4 - ServicioPregunta</h3>
+          <p class="time">70 minutos</p>
+          <ul>
+            <li><input type="checkbox" id="d4-9"><label for="d4-9">En <code>guardarListaEnBD</code>, escribir el flujo: recorrer lista, insertar pregunta, recuperar id, insertar respuesta.</label></li>
+            <li><input type="checkbox" id="d4-10"><label for="d4-10">En <code>obtenerPreguntasAleatorias</code>, escribir el flujo: consultar BD, recorrer <code>ResultSet</code>, crear objetos, devolver lista.</label></li>
+            <li><input type="checkbox" id="d4-11"><label for="d4-11">Practicar <code>Statement.RETURN_GENERATED_KEYS</code> mirando donde se usa <code>getGeneratedKeys</code>.</label></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="day" data-day="5">
+        <div class="day-header">
+          <div>
+            <h2>Dia 5 - Ejercicios tipo examen</h2>
+            <p class="objective">Objetivo: adaptar patrones a enunciados nuevos.</p>
+          </div>
+          <div class="day-actions">
+            <button type="button" data-action="toggle-day">Marcar dia</button>
+            <button type="button" data-action="clear-day">Limpiar</button>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>Ejercicios</h3>
+          <p class="time">240 minutos aproximados</p>
+          <ul>
+            <li><input type="checkbox" id="d5-1"><label for="d5-1">Resolver numeros y fichero sin mirar codigo: leer hasta <code>Fin</code>, filtrar, sumar y guardar.</label></li>
+            <li><input type="checkbox" id="d5-6"><label for="d5-6">Si te bloqueas en numeros, consultar solo <code>FicherosAD4/src/repositorio/Fichero.java</code> y <code>FicherosAD4/src/servicio/ServicioFicheros.java</code>.</label></li>
+            <li><input type="checkbox" id="d5-2"><label for="d5-2">Resolver letras y ficheros sin mirar codigo: 10 letras, ficheros unicos, palabras por inicial y contadores.</label></li>
+            <li><input type="checkbox" id="d5-7"><label for="d5-7">Si te bloqueas en letras, consultar <code>Fichero.java</code>, <code>Escaner.java</code> y <code>ControladorIncidencias.java</code>.</label></li>
+            <li><input type="checkbox" id="d5-3"><label for="d5-3">Resolver webs con palabras clave usando <code>LIKE ?</code> y lista de objetos.</label></li>
+            <li><input type="checkbox" id="d5-8"><label for="d5-8">Si te bloqueas en webs, consultar <code>AD_JDBC_MVC/src/util/DBConnection.java</code>, <code>AD_JDBC_MVC/src/servicio/ServicioPregunta.java</code> y la plantilla <code>JDBC LIKE con palabras</code>.</label></li>
+            <li><input type="checkbox" id="d5-4"><label for="d5-4">Resolver ventas agrupadas por supermercado y producto usando ids.</label></li>
+            <li><input type="checkbox" id="d5-9"><label for="d5-9">Si te bloqueas en ventas, usar <code>guardarListaEnBD</code> como patron de <code>INSERT</code> y <code>obtenerPreguntasAleatorias</code> como patron de <code>SELECT</code>.</label></li>
+            <li><input type="checkbox" id="d5-5"><label for="d5-5">Corregir mirando solo <code>Fichero.java</code>, <code>ServicioFicheros.java</code>, <code>ServicioPregunta.java</code> y <code>DBConnection.java</code>.</label></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="day" data-day="6">
+        <div class="day-header">
+          <div>
+            <h2>Dia 6 - Simulacro final</h2>
+            <p class="objective">Objetivo: comprobar si puedes producir codigo bajo presion.</p>
+          </div>
+          <div class="day-actions">
+            <button type="button" data-action="toggle-day">Marcar dia</button>
+            <button type="button" data-action="clear-day">Limpiar</button>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>Simulacro</h3>
+          <p class="time">270 minutos aproximados</p>
+          <ul>
+            <li><input type="checkbox" id="d6-1"><label for="d6-1">Escribir proyecto de ficheros completo en 90 minutos.</label></li>
+            <li><input type="checkbox" id="d6-6"><label for="d6-6">Comparar el proyecto de ficheros con <code>Main</code>, <code>Incidencia</code>, <code>ListaIncidencias</code>, <code>Fichero</code>, <code>ServicioFicheros</code>, <code>ControladorIncidencias</code> y <code>Escaner</code>.</label></li>
+            <li><input type="checkbox" id="d6-2"><label for="d6-2">Descansar 15 minutos sin mirar codigo.</label></li>
+            <li><input type="checkbox" id="d6-3"><label for="d6-3">Escribir proyecto JDBC completo en 120 minutos.</label></li>
+            <li><input type="checkbox" id="d6-7"><label for="d6-7">Comparar el proyecto JDBC con <code>Main</code>, <code>Pregunta</code>, <code>ListaPreguntas</code>, <code>DBConnection</code>, <code>ServicioPregunta</code>, <code>ControladorPreguntas</code> y <code>Escaner</code>.</label></li>
+            <li><input type="checkbox" id="d6-4"><label for="d6-4">Corregir imports, constructores, listas, metodos con parametros, excepciones, JDBC y separacion por clases.</label></li>
+            <li><input type="checkbox" id="d6-5"><label for="d6-5">Confirmar que la solucion se parece a la arquitectura del repo y no a codigo improvisado.</label></li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const storageKey = "repaso-ad-checklist-v1";
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+    const checks = Array.from(document.querySelectorAll('input[type="checkbox"]'));
+
+    function save() {
+      const state = {};
+      checks.forEach((box) => {
+        state[box.id] = box.checked;
+      });
+      localStorage.setItem(storageKey, JSON.stringify(state));
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const done = checks.filter((box) => box.checked).length;
+      const total = checks.length;
+      const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+      document.getElementById("totalText").textContent = `${done} / ${total} (${percent}%)`;
+      document.getElementById("totalFill").style.width = `${percent}%`;
+
+      document.querySelectorAll(".day").forEach((day) => {
+        const dayChecks = Array.from(day.querySelectorAll('input[type="checkbox"]'));
+        const dayDone = dayChecks.every((box) => box.checked);
+        day.dataset.complete = dayDone ? "true" : "false";
+      });
+    }
+
+    checks.forEach((box) => {
+      box.checked = Boolean(saved[box.id]);
+      box.addEventListener("change", save);
+    });
+
+    document.querySelectorAll('[data-action="toggle-day"]').forEach((button) => {
+      button.addEventListener("click", () => {
+        const day = button.closest(".day");
+        day.querySelectorAll('input[type="checkbox"]').forEach((box) => {
+          box.checked = true;
+        });
+        save();
+      });
+    });
+
+    document.querySelectorAll('[data-action="clear-day"]').forEach((button) => {
+      button.addEventListener("click", () => {
+        const day = button.closest(".day");
+        day.querySelectorAll('input[type="checkbox"]').forEach((box) => {
+          box.checked = false;
+        });
+        save();
+      });
+    });
+
+    document.getElementById("resetAll").addEventListener("click", () => {
+      if (confirm("Borrar todo el progreso guardado?")) {
+        checks.forEach((box) => {
+          box.checked = false;
+        });
+        save();
+      }
+    });
+
+    document.getElementById("collapseDone").addEventListener("click", () => {
+      document.querySelectorAll(".day").forEach((day) => {
+        if (day.dataset.complete === "true") {
+          day.style.display = "none";
+        }
+      });
+    });
+
+    document.getElementById("expandAll").addEventListener("click", () => {
+      document.querySelectorAll(".day").forEach((day) => {
+        day.style.display = "";
+      });
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>

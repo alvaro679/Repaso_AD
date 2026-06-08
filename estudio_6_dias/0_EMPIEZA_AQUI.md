@@ -10,6 +10,14 @@ Tu archivo principal ahora es:
 
 Ese archivo ya te dice que hacer cada dia, que archivos abrir, cuanto tiempo dedicar y que tienes que escribir sin mirar.
 
+Si quieres marcar tareas haciendo click, abre:
+
+```text
+checklist_interactiva.html
+```
+
+Las casillas de los archivos Markdown pueden verse como checkbox, pero muchos editores no las dejan marcar o no guardan el cambio.
+
 ## Metodo obligatorio
 
 Cada bloque se estudia asi:
@@ -68,4 +76,3 @@ getLista()
 Entender al leer no es suficiente.
 
 El examen no mide si reconoces el codigo. Mide si puedes producir una solucion. Por eso el entrenamiento principal es escribir sin mirar.
-

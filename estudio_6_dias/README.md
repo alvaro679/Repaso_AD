@@ -11,6 +11,8 @@ La idea no es leer pasivamente. La idea es reconstruir codigo a mano hasta que p
 
 Empieza por `0_EMPIEZA_AQUI.md` y despues trabaja cada dia con `1_CHECKLIST_6_DIAS.md`.
 
+Si quieres checkboxes que se marquen al hacer click, usa `checklist_interactiva.html`. Los checkboxes de Markdown dependen del editor y muchas veces no son interactivos.
+
 Cada bloque repite este ciclo:
 
 1. Mira el mapa o plantilla correspondiente durante pocos minutos.
@@ -29,6 +31,7 @@ Si solo lees, no estas estudiando para este examen. Estas reconociendo codigo, q
 3. `3_PLANTILLAS_EXAMEN_A_MANO.md`: patrones que debes poder escribir sin mirar.
 4. `4_SIMULACROS_Y_CORRECCION.md`: ejercicios cronometrados y rubrica de autocorreccion.
 5. `5_TARJETAS_MEMORIA.md`: preguntas rapidas para comprobar si lo tienes de verdad.
+6. `checklist_interactiva.html`: version clicable con progreso guardado en el navegador.
 
 ## Regla clave de JDBC
 
