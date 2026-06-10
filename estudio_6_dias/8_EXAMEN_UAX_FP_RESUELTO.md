@@ -7,6 +7,13 @@ Este documento contiene los enunciados del examen que pasaste y una solucion ori
 
 Importante: en la parte JDBC, la estructura de tablas se usa como informacion del enunciado. No se escribe codigo para crear tablas.
 
+## Enunciados de cada ejercicio
+
+1. Ejercicio 1: introducir numeros hasta `Fin`, guardar solo los que estan entre 100 y 1000 en `numeros.txt` separados por `;` y calcular la suma de los validos y la suma total de los introducidos.
+2. Ejercicio 2: introducir 10 letras, crear un fichero por cada letra distinta, escribir palabras en el fichero de su inicial y mostrar cuantas se han escrito y cuantas no.
+3. Ejercicio 3: introducir palabras por teclado y mostrar los registros de la tabla `webs` que contengan alguna de esas palabras en `palabrasClave`.
+4. Ejercicio 4: leer ventas, agruparlas por supermercado y producto, buscar los ids en las tablas ya creadas e insertar el resumen en la tabla de ventas.
+
 ---
 
 # Penalizaciones del examen
@@ -1097,4 +1104,3 @@ ResultSet -> objeto
 buscar id por nombre
 insertar resumen con ids
 ```
-
