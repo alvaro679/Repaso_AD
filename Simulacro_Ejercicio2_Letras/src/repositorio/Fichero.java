@@ -17,7 +17,6 @@ public class Fichero {
         BufferedWriter bw = null;
 
         try {
-            crearCarpetaPadre();
             fw = new FileWriter(ruta, true);
             bw = new BufferedWriter(fw);
             bw.write(dato);
@@ -43,7 +42,6 @@ public class Fichero {
         File archivo;
 
         try {
-            crearCarpetaPadre();
             archivo = new File(ruta);
 
             if (!archivo.exists()) {
@@ -55,14 +53,4 @@ public class Fichero {
 
         return creado;
     }
-
-    private void crearCarpetaPadre() {
-        File archivo = new File(ruta);
-        File padre = archivo.getParentFile();
-
-        if (padre != null && !padre.exists()) {
-            padre.mkdirs();
-        }
-    }
 }
-

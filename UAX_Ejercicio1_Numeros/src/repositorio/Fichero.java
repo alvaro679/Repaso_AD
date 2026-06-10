@@ -1,7 +1,6 @@
 package repositorio;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -17,7 +16,6 @@ public class Fichero {
         BufferedWriter bw = null;
 
         try {
-            crearCarpetaPadre();
             fw = new FileWriter(ruta, false);
             bw = new BufferedWriter(fw);
             bw.write(contenido);
@@ -36,14 +34,4 @@ public class Fichero {
             }
         }
     }
-
-    private void crearCarpetaPadre() {
-        File archivo = new File(ruta);
-        File padre = archivo.getParentFile();
-
-        if (padre != null && !padre.exists()) {
-            padre.mkdirs();
-        }
-    }
 }
-
