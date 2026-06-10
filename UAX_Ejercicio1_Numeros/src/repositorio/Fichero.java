@@ -1,0 +1,49 @@
+package repositorio;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Fichero {
+    private String ruta;
+
+    public Fichero(String ruta) {
+        this.ruta = ruta;
+    }
+
+    public void escribirContenido(String contenido) {
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+
+        try {
+            crearCarpetaPadre();
+            fw = new FileWriter(ruta, false);
+            bw = new BufferedWriter(fw);
+            bw.write(contenido);
+        } catch (IOException e) {
+            System.err.println("Error al escribir: " + e.getMessage());
+        } finally {
+            try {
+                if (bw != null) {
+                    bw.close();
+                }
+                if (fw != null) {
+                    fw.close();
+                }
+            } catch (IOException e) {
+                System.err.println("Error al cerrar fichero.");
+            }
+        }
+    }
+
+    private void crearCarpetaPadre() {
+        File archivo = new File(ruta);
+        File padre = archivo.getParentFile();
+
+        if (padre != null && !padre.exists()) {
+            padre.mkdirs();
+        }
+    }
+}
+

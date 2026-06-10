@@ -32,6 +32,9 @@ Si solo lees, no estas estudiando para este examen. Estas reconociendo codigo, q
 4. `4_SIMULACROS_Y_CORRECCION.md`: ejercicios cronometrados y rubrica de autocorreccion.
 5. `5_TARJETAS_MEMORIA.md`: preguntas rapidas para comprobar si lo tienes de verdad.
 6. `checklist_interactiva.html`: version clicable con progreso guardado en el navegador.
+7. `6_EXAMEN_SIMULACRO_UNIVERSAL.md`: examen completo para practicar ficheros y JDBC como simulacro real.
+8. `7_SOLUCION_EXAMEN_SIMULACRO.md`: solucion orientativa del simulacro basada en los proyectos del repo.
+9. `8_EXAMEN_UAX_FP_RESUELTO.md`: examen original que pasaste, con enunciados limpios y solucion orientativa.
 
 ## Regla clave de JDBC
 
